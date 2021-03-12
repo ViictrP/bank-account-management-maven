@@ -1,0 +1,7 @@
+# FOLDERS
+/.idea
+/target
+
+# FILES
+*.iml
+*.DS_Store
