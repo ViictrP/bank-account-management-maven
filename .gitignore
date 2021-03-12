@@ -5,3 +5,6 @@
 # FILES
 *.iml
 *.DS_Store
+/entrypoint/target/
+/core/target/
+/dataprovider/target/
