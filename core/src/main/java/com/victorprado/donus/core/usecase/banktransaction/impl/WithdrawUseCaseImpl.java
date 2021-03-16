@@ -33,7 +33,7 @@ public class WithdrawUseCaseImpl implements WithdrawUseCase {
     @Override
     public BankTransaction withdraw(String accountNumber, BigDecimal value) {
         log.info("obtaining the account {}", accountNumber);
-        BankAccount account = getBankAccountRepository.get(accountNumber)
+        BankAccount account = getBankAccountRepository.getBankAccount(accountNumber)
             .orElseThrow(() -> new BankAccountNotFoundException("The bank account " + accountNumber + " does not exist."));
 
         log.info("withdrawing value {} from account {}", value, accountNumber);
@@ -41,7 +41,7 @@ public class WithdrawUseCaseImpl implements WithdrawUseCase {
         account.reduceBalance(valueWithTax);
 
         log.info("updating account balance {}", accountNumber);
-        updateBankAccountRepository.update(account);
+        updateBankAccountRepository.updateBankAccount(account);
 
         BankTransaction transaction = BankTransaction.builder()
             .sourceAccount(account)
@@ -51,7 +51,7 @@ public class WithdrawUseCaseImpl implements WithdrawUseCase {
             .build();
 
         log.info("saving the transaction. Transaction {}", transaction);
-        saveTransactionRepository.save(transaction);
+        saveTransactionRepository.saveTransaction(transaction);
 
         return transaction;
     }

@@ -39,12 +39,12 @@ class DepositUseCaseImplTest {
             .balance(BigDecimal.valueOf(100))
             .build();
 
-        when(getBankAccountRepository.get(anyString()))
+        when(getBankAccountRepository.getBankAccount(anyString()))
             .thenReturn(Optional.of(account));
 
-        doNothing().when(updateBankAccountRepository).update(any(BankAccount.class));
+        doNothing().when(updateBankAccountRepository).updateBankAccount(any(BankAccount.class));
 
-        when(saveTransactionRepository.save(any(BankTransaction.class)))
+        when(saveTransactionRepository.saveTransaction(any(BankTransaction.class)))
             .thenReturn(BankTransaction.builder()
                 .value(BigDecimal.valueOf(100))
                 .when(LocalDateTime.now())
@@ -67,7 +67,7 @@ class DepositUseCaseImplTest {
 
     @Test
     void givenNonexistentSourceAccountThenThrowBankAccountNotFoundException() {
-        when(getBankAccountRepository.get("1234"))
+        when(getBankAccountRepository.getBankAccount("1234"))
             .thenThrow(new BankAccountNotFoundException("The bank account 1234 does not exist."));
 
         thenThrownBy(() -> useCase.deposit("1234", BigDecimal.ONE))

@@ -4,5 +4,5 @@ import com.victorprado.donus.core.entity.BankAccount;
 
 public interface CreateAccountRepository {
 
-    BankAccount create(BankAccount account);
+    BankAccount createBankAccount(BankAccount account);
 }

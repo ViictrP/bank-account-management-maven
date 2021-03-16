@@ -4,5 +4,5 @@ import com.victorprado.donus.core.entity.BankTransaction;
 
 public interface SaveTransactionRepository {
 
-    BankTransaction save(BankTransaction transaction);
+    BankTransaction saveTransaction(BankTransaction transaction);
 }

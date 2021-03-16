@@ -37,13 +37,13 @@ class CreateAccountUseCaseImplTest {
 
     @Test
     void givenValidCustomerThenCreateABankAccount() {
-        given(repository.create(any(BankAccount.class)))
+        given(repository.createBankAccount(any(BankAccount.class)))
             .willReturn(BANK_ACCOUNT);
 
-        given(getCustomerRepository.get(CPF_WITHOUT_ACCOUNT))
+        given(getCustomerRepository.getCustomer(CPF_WITHOUT_ACCOUNT))
             .willReturn(Optional.of(new Customer("id", "name", CPF_WITHOUT_ACCOUNT)));
 
-        given(getBankAccountRepository.get(anyString()))
+        given(getBankAccountRepository.getBankAccount(anyString()))
             .willReturn(Optional.empty());
 
         BankAccount bankAccount = useCase.create(new Customer("jfsgdsfd", "Victor Prado", CPF_WITHOUT_ACCOUNT));
@@ -68,13 +68,13 @@ class CreateAccountUseCaseImplTest {
 
     @Test
     void givenCustomerWithAccountThenThrowCustomerHaveAccountException() {
-        given(repository.create(any(BankAccount.class)))
+        given(repository.createBankAccount(any(BankAccount.class)))
             .willReturn(BANK_ACCOUNT);
 
-        given(getCustomerRepository.get(CPF_WITH_ACCOUNT))
+        given(getCustomerRepository.getCustomer(CPF_WITH_ACCOUNT))
             .willReturn(Optional.of(new Customer("id", "name", CPF_WITH_ACCOUNT)));
 
-        given(getBankAccountRepository.get(anyString()))
+        given(getBankAccountRepository.getBankAccount(anyString()))
             .willReturn(Optional.of(BankAccount.builder().build()));
 
         thenThrownBy(() -> useCase.create(new Customer("jfsgdsfd", "Victor Prado", CPF_WITH_ACCOUNT)))
@@ -84,7 +84,7 @@ class CreateAccountUseCaseImplTest {
 
     @Test
     void givenNotExistingCustomerThenThrowCustomerNotFoundException() {
-        given(getCustomerRepository.get(anyString()))
+        given(getCustomerRepository.getCustomer(anyString()))
             .willReturn(Optional.empty());
 
         thenThrownBy(() -> useCase.create(new Customer("jfsgdsfd", "Victor Prado", CPF_WITH_ACCOUNT)))

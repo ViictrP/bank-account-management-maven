@@ -5,5 +5,5 @@ import java.util.Optional;
 
 public interface GetCustomerRepository {
 
-    Optional<Customer> get(String cpf);
+    Optional<Customer> getCustomer(String cpf);
 }

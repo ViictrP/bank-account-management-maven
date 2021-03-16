@@ -32,11 +32,11 @@ public class TransferUseCaseImpl implements TransferUseCase {
     public BankTransaction transfer(String sourceAccountNumber, String destinationAccountNumber,
         BigDecimal value) {
         log.info("obtaining the source account {}", sourceAccountNumber);
-        BankAccount sourceAccount = getAccountRepository.get(sourceAccountNumber)
+        BankAccount sourceAccount = getAccountRepository.getBankAccount(sourceAccountNumber)
             .orElseThrow(() -> new BankAccountNotFoundException("The bank account " + sourceAccountNumber + " does not exist."));
 
         log.info("obtaining the destination account {}", destinationAccountNumber);
-        BankAccount destinationAccount = getAccountRepository.get(destinationAccountNumber)
+        BankAccount destinationAccount = getAccountRepository.getBankAccount(destinationAccountNumber)
             .orElseThrow(() -> new BankAccountNotFoundException("The bank account " + destinationAccountNumber + " does not exist"));
 
         log.info("getting the value from source account {}", sourceAccountNumber);
@@ -54,13 +54,13 @@ public class TransferUseCaseImpl implements TransferUseCase {
             .build();
 
         log.info("updating source account balance {}", sourceAccountNumber);
-        updateBankAccountRepository.update(sourceAccount);
+        updateBankAccountRepository.updateBankAccount(sourceAccount);
 
         log.info("updating destination account balance {}", destinationAccountNumber);
-        updateBankAccountRepository.update(destinationAccount);
+        updateBankAccountRepository.updateBankAccount(destinationAccount);
 
         log.info("saving the transaction. Transaction {}", transaction);
-        saveTransactionRepository.save(transaction);
+        saveTransactionRepository.saveTransaction(transaction);
 
         return transaction;
     }

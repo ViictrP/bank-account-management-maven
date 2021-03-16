@@ -33,10 +33,10 @@ class TransferUseCaseImplTest {
         BankAccount account_1 = BankAccount.builder().balance(BigDecimal.valueOf(100)).build();
         BankAccount account_2 = BankAccount.builder().balance(BigDecimal.valueOf(100)).build();
 
-        when(bankAccountRepository.get("1234")).thenReturn(Optional.of(account_1));
-        when(bankAccountRepository.get("5678")).thenReturn(Optional.of(account_2));
+        when(bankAccountRepository.getBankAccount("1234")).thenReturn(Optional.of(account_1));
+        when(bankAccountRepository.getBankAccount("5678")).thenReturn(Optional.of(account_2));
 
-        when(saveTransactionRepository.save(any(BankTransaction.class)))
+        when(saveTransactionRepository.saveTransaction(any(BankTransaction.class)))
             .thenReturn(BankTransaction.builder()
                 .value(BigDecimal.valueOf(100))
                 .when(LocalDateTime.now())
@@ -59,7 +59,7 @@ class TransferUseCaseImplTest {
 
     @Test
     void givenNonexistentSourceAccountThenThrowBankAccountNotFoundException() {
-        when(bankAccountRepository.get("1234"))
+        when(bankAccountRepository.getBankAccount("1234"))
             .thenThrow(new BankAccountNotFoundException("The bank account 1234 does not exist."));
 
         thenThrownBy(() -> useCase.transfer("1234", "5678", BigDecimal.ONE))
@@ -69,8 +69,8 @@ class TransferUseCaseImplTest {
     @Test
     void givenNonexistentDestinationAccountThenThrowBankAccountNotFoundException() {
         BankAccount account = BankAccount.builder().balance(BigDecimal.valueOf(100)).build();
-        when(bankAccountRepository.get("1234")).thenReturn(Optional.of(account));
-        when(bankAccountRepository.get("5678"))
+        when(bankAccountRepository.getBankAccount("1234")).thenReturn(Optional.of(account));
+        when(bankAccountRepository.getBankAccount("5678"))
             .thenThrow(new BankAccountNotFoundException("The bank account 5678 does not exist."));
 
         thenThrownBy(() -> useCase.transfer("1234", "5678", BigDecimal.ONE))

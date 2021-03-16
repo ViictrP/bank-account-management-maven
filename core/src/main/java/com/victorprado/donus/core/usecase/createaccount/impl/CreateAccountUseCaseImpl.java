@@ -35,11 +35,11 @@ public class CreateAccountUseCaseImpl implements CreateAccountUseCase {
         customer.validate();
 
         log.info("searching for the customer {}", customer.getCpf());
-        Customer customerEntity = getCustomerRepository.get(customer.getCpf())
+        Customer customerEntity = getCustomerRepository.getCustomer(customer.getCpf())
             .orElseThrow(CustomerNotFoundException::new);
 
         log.info("validating if customer already has a bank account");
-        getBankAccountRepository.get(customerEntity.getId()).ifPresent(entity -> {
+        getBankAccountRepository.getBankAccount(customerEntity.getId()).ifPresent(entity -> {
             log.error("The customer already have an account. Customer {}", entity);
             throw new CustomerHaveAccountException();
         });
@@ -49,7 +49,7 @@ public class CreateAccountUseCaseImpl implements CreateAccountUseCase {
     }
 
     private BankAccount createAccount(Customer customer) {
-        return repository.create(
+        return repository.createBankAccount(
             BankAccount.builder()
                 .balance(BigDecimal.ZERO)
                 .customer(customer)

@@ -32,7 +32,7 @@ public class DepositUseCaseImpl implements DepositUseCase {
 
     public BankTransaction deposit(String accountNumber, BigDecimal depositValue) {
         log.info("obtaining the account {}", accountNumber);
-        BankAccount account = getBankAccountRepository.get(accountNumber)
+        BankAccount account = getBankAccountRepository.getBankAccount(accountNumber)
             .orElseThrow(() -> new BankAccountNotFoundException("The bank account " + accountNumber + " does not exist."));
 
         log.info("depositing value {} into account {}", depositValue, accountNumber);
@@ -40,7 +40,7 @@ public class DepositUseCaseImpl implements DepositUseCase {
         account.increaseBalance(depositWithBonus);
 
         log.info("updating account balance {}", accountNumber);
-        updateBankAccountRepository.update(account);
+        updateBankAccountRepository.updateBankAccount(account);
 
         BankTransaction transaction = BankTransaction.builder()
             .sourceAccount(account)
@@ -50,7 +50,7 @@ public class DepositUseCaseImpl implements DepositUseCase {
             .build();
 
         log.info("saving the transaction. Transaction {}", transaction);
-        saveTransactionRepository.save(transaction);
+        saveTransactionRepository.saveTransaction(transaction);
 
         return transaction;
     }
