@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer implements EntityValidator {
+public class Customer extends Upgradeable implements EntityValidator {
 
     private String id;
     private String name;

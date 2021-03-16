@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class BankAccount {
+public class BankAccount extends Upgradeable {
 
     private String id;
     private String number;

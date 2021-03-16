@@ -1,4 +1,6 @@
-package com.victorprado.donus.core.exception;
+package com.victorprado.donus.core.exception.condition;
+
+import com.victorprado.donus.core.exception.CoreException;
 
 public class NullObjectException extends CoreException {
 

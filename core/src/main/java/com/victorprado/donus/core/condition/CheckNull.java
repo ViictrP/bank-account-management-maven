@@ -1,6 +1,6 @@
 package com.victorprado.donus.core.condition;
 
-import com.victorprado.donus.core.exception.NotNullObjectException;
+import com.victorprado.donus.core.exception.condition.NotNullObjectException;
 
 public final class CheckNull {
 

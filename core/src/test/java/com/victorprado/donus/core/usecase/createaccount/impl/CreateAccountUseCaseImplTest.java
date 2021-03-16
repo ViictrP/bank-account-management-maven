@@ -8,7 +8,7 @@ import static org.mockito.BDDMockito.given;
 
 import com.victorprado.donus.core.entity.BankAccount;
 import com.victorprado.donus.core.entity.Customer;
-import com.victorprado.donus.core.exception.NullObjectException;
+import com.victorprado.donus.core.exception.condition.NullObjectException;
 import com.victorprado.donus.core.exception.createaccount.CustomerHaveAccountException;
 import com.victorprado.donus.core.exception.createaccount.CustomerNotFoundException;
 import com.victorprado.donus.core.exception.createaccount.InvalidCustomerException;

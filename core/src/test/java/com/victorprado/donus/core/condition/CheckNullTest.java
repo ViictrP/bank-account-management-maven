@@ -3,7 +3,7 @@ package com.victorprado.donus.core.condition;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
-import com.victorprado.donus.core.exception.NotNullObjectException;
+import com.victorprado.donus.core.exception.condition.NotNullObjectException;
 import org.junit.jupiter.api.Test;
 
 class CheckNullTest {
