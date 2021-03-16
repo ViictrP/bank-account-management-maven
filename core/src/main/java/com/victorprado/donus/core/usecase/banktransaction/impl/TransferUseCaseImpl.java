@@ -6,35 +6,38 @@ import com.victorprado.donus.core.entity.BankAccount;
 import com.victorprado.donus.core.entity.BankTransaction;
 import com.victorprado.donus.core.exception.business.BankAccountNotFoundException;
 import com.victorprado.donus.core.repository.GetBankAccountRepository;
+import com.victorprado.donus.core.repository.SaveTransactionRepository;
+import com.victorprado.donus.core.repository.UpdateBankAccountRepository;
 import com.victorprado.donus.core.usecase.banktransaction.TransferUseCase;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 
-// TODO criar GetBankAccountRepository
-// TODO criar UpdateBankAccountRepository
-// TODO criar SaveTransactionRepository
-// TODO criar ReduceBalance na classe BankTransaction
-// TODO criar IncreaseBalance na classe BankTransaction
 @Slf4j
 public class TransferUseCaseImpl implements TransferUseCase {
 
-    private final GetBankAccountRepository repository;
+    private final GetBankAccountRepository getAccountRepository;
+    private final UpdateBankAccountRepository updateBankAccountRepository;
+    private final SaveTransactionRepository saveTransactionRepository;
 
-    public TransferUseCaseImpl(GetBankAccountRepository bankAccountRepository) {
-        this.repository = bankAccountRepository;
+    public TransferUseCaseImpl(GetBankAccountRepository bankAccountRepository,
+        UpdateBankAccountRepository updateBankAccountRepository,
+        SaveTransactionRepository saveTransactionRepository) {
+        this.getAccountRepository = bankAccountRepository;
+        this.updateBankAccountRepository = updateBankAccountRepository;
+        this.saveTransactionRepository = saveTransactionRepository;
     }
 
     @Override
     public BankTransaction transfer(String sourceAccountNumber, String destinationAccountNumber,
         BigDecimal value) {
         log.info("obtaining the source account {}", sourceAccountNumber);
-        BankAccount sourceAccount = getBankAccount.getAccountByNumber(sourceAccountNumber)
-            .orElseThrow(BankAccountNotFoundException::new);
+        BankAccount sourceAccount = getAccountRepository.get(sourceAccountNumber)
+            .orElseThrow(() -> new BankAccountNotFoundException("The bank account " + sourceAccountNumber + " does not exist."));
 
         log.info("obtaining the destination account {}", destinationAccountNumber);
-        BankAccount destinationAccount = getBankAccount.getAccountByNumber(destinationAccountNumber)
-            .orElseThrow(BankAccountNotFoundException::new);
+        BankAccount destinationAccount = getAccountRepository.get(destinationAccountNumber)
+            .orElseThrow(() -> new BankAccountNotFoundException("The bank account " + destinationAccountNumber + " does not exist"));
 
         log.info("getting the value from source account {}", sourceAccountNumber);
         sourceAccount.reduceBalance(value);
@@ -51,13 +54,13 @@ public class TransferUseCaseImpl implements TransferUseCase {
             .build();
 
         log.info("updating source account balance {}", sourceAccountNumber);
-        updateBankAccountBalance.updateBalance(sourceAccount, sourceAccount.getBalance());
+        updateBankAccountRepository.update(sourceAccount);
 
         log.info("updating destination account balance {}", destinationAccountNumber);
-        updateBankAccountBalance.updateBalance(destinationAccount, destinationAccount.getBalance());
+        updateBankAccountRepository.update(destinationAccount);
 
-        log.info(SAVING_TRANSACTION_LOG_MESSAGE, transaction.getId());
-        saveTransaction.saveTransaction(transaction);
+        log.info("saving the transaction. Transaction {}", transaction);
+        saveTransactionRepository.save(transaction);
 
         return transaction;
     }
