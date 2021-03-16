@@ -1,6 +1,6 @@
 package com.victorprado.donus.core.entity;
 
-import com.victorprado.donus.core.exception.createaccount.InvalidCustomerException;
+import com.victorprado.donus.core.exception.business.InvalidCustomerException;
 import com.victorprado.donus.core.exception.entity.InvalidEntityException;
 import com.victorprado.donus.core.validator.EntityValidator;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.victorprado.donus.core.exception.createaccount;
+package com.victorprado.donus.core.exception.business;
 
 import com.victorprado.donus.core.exception.CoreException;
 
