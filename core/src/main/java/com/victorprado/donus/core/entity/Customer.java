@@ -2,8 +2,9 @@ package com.victorprado.donus.core.entity;
 
 import com.victorprado.donus.core.exception.business.InvalidCustomerException;
 import com.victorprado.donus.core.exception.entity.InvalidEntityException;
-import com.victorprado.donus.core.validator.EntityValidator;
+import com.victorprado.donus.core.entity.validator.EntityValidator;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Customer extends Upgradeable implements EntityValidator {
 
     private String id;

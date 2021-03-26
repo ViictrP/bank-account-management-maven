@@ -1,4 +1,4 @@
-package com.victorprado.donus.core.validator;
+package com.victorprado.donus.core.entity.validator;
 
 import com.victorprado.donus.core.exception.entity.InvalidEntityException;
 
